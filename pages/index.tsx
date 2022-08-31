@@ -20,14 +20,11 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <h1 className={styles.title}>Harga Crypto dalam Rupiah Hari ini</h1>
+      <main className={`${styles.main} w-full mx-auto`}>
+        <div className="flex flex-col lg:flex-row justify-around">
+          <h1 className={`${styles.title} pb-5 lg:pb-0`}>
+            Harga Crypto dalam Rupiah Hari ini
+          </h1>
           <form className="flex items-center">
             <label htmlFor="simple-search" className="sr-only">
               Search

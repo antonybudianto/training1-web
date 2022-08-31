@@ -79,8 +79,8 @@ const TokenList: FC<TokenListProps> = ({ search }) => {
   }, []);
 
   return (
-    <div className="mt-10">
-      <table className="w-full">
+    <div className="mt-10 mx-auto">
+      <table className="table-auto">
         <thead>
           <tr className="text-gray-400 uppercase">
             <td width={100} className="font-bold text-center" colSpan={2}>
@@ -92,18 +92,27 @@ const TokenList: FC<TokenListProps> = ({ search }) => {
             <td width={120} className="font-bold text-center">
               24 Jam
             </td>
-            <td width={120} className="font-bold text-center">
+            <td
+              width={120}
+              className="font-bold text-center hidden lg:table-cell"
+            >
               1 MGG
             </td>
-            <td width={120} className="font-bold text-center">
+            <td
+              width={120}
+              className="font-bold text-center hidden lg:table-cell"
+            >
               1 BLN
             </td>
-            <td width={120} className="font-bold text-center">
+            <td
+              width={120}
+              className="font-bold text-center hidden lg:table-cell"
+            >
               1 THN
             </td>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="text-sm lg:text-lg">
           {data
             .filter((d: CurrencyData) => {
               if (!search) return true;
@@ -161,7 +170,7 @@ const TokenList: FC<TokenListProps> = ({ search }) => {
                     {Math.abs(day)}%
                   </td>
                   <td
-                    className={`text-center ${
+                    className={`text-center hidden lg:table-cell ${
                       weekMinus ? "text-red-500" : "text-green-600"
                     }`}
                   >
@@ -169,7 +178,7 @@ const TokenList: FC<TokenListProps> = ({ search }) => {
                     {Math.abs(week)}%
                   </td>
                   <td
-                    className={`text-center ${
+                    className={`text-center hidden lg:table-cell ${
                       monthMinus ? "text-red-500" : "text-green-600"
                     }`}
                   >
@@ -177,7 +186,7 @@ const TokenList: FC<TokenListProps> = ({ search }) => {
                     {Math.abs(month)}%
                   </td>
                   <td
-                    className={`text-center ${
+                    className={`text-center hidden lg:table-cell ${
                       yearMinus ? "text-red-500" : "text-green-600"
                     }`}
                   >
