@@ -12,7 +12,7 @@ const PriceCell: FC<PriceCellProps> = ({ value, animation }) => {
     setAnim(animation);
     setTimeout(() => {
       setAnim("");
-    }, 2000);
+    }, 1900);
   }, [value, animation]);
 
   return <td className={`text-right ${anim}`}>{value}</td>;

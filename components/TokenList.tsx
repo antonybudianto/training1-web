@@ -1,7 +1,9 @@
-import type { CurrencyData, PriceChange, TokenListProps } from "@/types/token";
 import Image from "next/image";
-import { FC, useCallback, useEffect, useRef, useState } from "react";
+import { FC, useRef } from "react";
 
+import useCurrencies from "@/hooks/useCurrencies";
+import usePriceChanges from "@/hooks/usePriceChanges";
+import type { CurrencyData, TokenListProps } from "@/types/token";
 import PriceCell from "./PriceCell";
 
 const pairMainCurrency = "idr";
@@ -9,58 +11,9 @@ const pairMainCurrency = "idr";
 const locale = Intl.NumberFormat("id");
 
 const TokenList: FC<TokenListProps> = ({ search }) => {
-  const [data, setData] = useState([]);
-  const [priceChangeMap, setPriceChangeList] = useState<
-    Record<string, PriceChange>
-  >({});
+  const currencies = useCurrencies();
+  const priceChangeMap = usePriceChanges();
   const animRef = useRef<Record<string, string>>({});
-
-  const fetchPriceChanges = useCallback(() => {
-    fetch("https://api.pintu.co.id/v2/trade/price-changes")
-      .then((res) => {
-        if (!res.ok) {
-          throw res;
-        }
-        return res.json();
-      })
-      .then((json) => {
-        const hashmap = json.payload.reduce(
-          (acc: Record<string, unknown>, curr: { pair: string }) => {
-            const newObj = { ...acc };
-            newObj[curr.pair] = curr;
-            return newObj;
-          },
-          {}
-        );
-        setPriceChangeList(hashmap);
-      });
-  }, []);
-
-  const fetchCurrencies = useCallback(() => {
-    fetch("https://api.pintu.co.id/v2/wallet/supportedCurrencies")
-      .then((res) => {
-        if (!res.ok) {
-          throw res;
-        }
-        return res.json();
-      })
-      .then((json) => {
-        setData(json.payload.slice(1));
-      });
-  }, []);
-
-  useEffect(() => {
-    fetchCurrencies();
-    const intervalId = setInterval(() => {
-      fetchPriceChanges();
-    }, 2000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-    // didmount only
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <div className="mt-10 mx-auto">
@@ -97,7 +50,7 @@ const TokenList: FC<TokenListProps> = ({ search }) => {
           </tr>
         </thead>
         <tbody className="text-sm lg:text-lg">
-          {data
+          {currencies
             .filter((d: CurrencyData) => {
               if (!search) return true;
               return d.name.toLowerCase().indexOf(search.toLowerCase()) !== -1;
