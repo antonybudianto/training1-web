@@ -1,28 +1,12 @@
+import type { CurrencyData, PriceChange, TokenListProps } from "@/types/token";
 import Image from "next/image";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
+
 import PriceCell from "./PriceCell";
 
 const pairMainCurrency = "idr";
 
 const locale = Intl.NumberFormat("id");
-
-interface CurrencyData {
-  currencySymbol: string;
-  name: string;
-  logo: string;
-}
-
-interface PriceChange {
-  day: string;
-  week: string;
-  month: string;
-  year: string;
-  latestPrice: number;
-}
-
-interface TokenListProps {
-  search: string;
-}
 
 const TokenList: FC<TokenListProps> = ({ search }) => {
   const [data, setData] = useState([]);
