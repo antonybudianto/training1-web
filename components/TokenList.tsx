@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FC, useMemo, useRef } from "react";
+import { FC, useMemo } from "react";
 
 import useCurrencies from "@/hooks/useCurrencies";
 import usePriceChanges from "@/hooks/usePriceChanges";
@@ -8,12 +8,9 @@ import PriceCell from "./PriceCell";
 
 const pairMainCurrency = "idr";
 
-const locale = Intl.NumberFormat("id");
-
 const TokenList: FC<TokenListProps> = ({ search }) => {
   const currencies = useCurrencies();
   const priceChangeMap = usePriceChanges();
-  const animRef = useRef<Record<string, string>>({});
   const filteredCurrencies = useMemo(() => {
     return currencies.filter((d: CurrencyData) => {
       if (!search) return true;
@@ -69,12 +66,7 @@ const TokenList: FC<TokenListProps> = ({ search }) => {
             const monthMinus = month < 0;
             const year = parseFloat(latest.year) || 0;
             const yearMinus = year < 0;
-            animRef.current[d.currencySymbol] = dayMinus
-              ? "animate-orange-change"
-              : "animate-green-change";
-            setTimeout(() => {
-              animRef.current[d.currencySymbol] = "";
-            }, 2000);
+
             return (
               <tr key={i}>
                 <td className="p-3 border-green-400 border-1">
@@ -92,12 +84,7 @@ const TokenList: FC<TokenListProps> = ({ search }) => {
                   </div>
                 </td>
                 <td className="text-gray-400">{d.currencySymbol}</td>
-                <PriceCell
-                  animation={
-                    dayMinus ? "animate-red-change" : "animate-green-change"
-                  }
-                  value={`Rp${locale.format(latest.latestPrice || 0)}`}
-                />
+                <PriceCell latestPrice={latest.latestPrice} />
 
                 <td
                   className={`text-center ${

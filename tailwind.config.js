@@ -17,7 +17,7 @@ module.exports = {
           "100%": { color: "white" },
         },
         red: {
-          "0%, 50%": { color: "orangered" },
+          "0%, 50%": { color: "red" },
           "100%": { color: "white" },
         },
       },

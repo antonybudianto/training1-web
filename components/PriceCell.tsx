@@ -1,21 +1,33 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 
 interface PriceCellProps {
-  value: string;
-  animation: string;
+  latestPrice: number;
 }
 
-const PriceCell: FC<PriceCellProps> = ({ value, animation }) => {
-  const [anim, setAnim] = useState(animation);
+const locale = Intl.NumberFormat("id");
+
+const PriceCell: FC<PriceCellProps> = ({ latestPrice }) => {
+  const [anim, setAnim] = useState("");
+  const priceRef = useRef(latestPrice);
 
   useEffect(() => {
-    setAnim(animation);
+    if (latestPrice > priceRef.current) {
+      setAnim("animate-green-change");
+    } else {
+      setAnim("animate-red-change");
+    }
+    priceRef.current = latestPrice;
+
     setTimeout(() => {
       setAnim("");
     }, 1900);
-  }, [value, animation]);
+  }, [latestPrice]);
 
-  return <td className={`text-right ${anim}`}>{value}</td>;
+  return (
+    <td className={`text-right ${anim}`}>
+      Rp{locale.format(latestPrice || 0)}
+    </td>
+  );
 };
 
 export default PriceCell;
